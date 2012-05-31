@@ -1,0 +1,8 @@
+###############
+#    IGNORE   #
+###############
+
+backup.bat
+project.sublime-project
+project.sublime-workspace
+nbproject
