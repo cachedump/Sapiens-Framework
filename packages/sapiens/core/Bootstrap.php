@@ -5,9 +5,11 @@ class Bootstrap {
 	private $SF;
 
 	public static $router;
+	public static $uri;
 	public static $output;
 	public $_output;
 	public $_router;
+	public $_uri;
 	public $config;
 
 	function __construct() {
@@ -34,6 +36,8 @@ class Bootstrap {
 		//Pre Controller
 		$this->pre_controller();
 		//Init Router(routes Uri and loads Controller)
+		$this->_uri = new SF_Uri();
+		self::$uri = &$this->_uri;
 		$this->_router = new SF_Router();
 		self::$router = &$this->_router;
 		//Post Controller

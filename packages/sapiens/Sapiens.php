@@ -13,6 +13,7 @@ require COREPATH . 'core/Loader.php';
 require COREPATH . 'core/Output.php';
 require COREPATH . 'core/Input.php';
 require COREPATH . 'core/Language.php';
+require COREPATH . 'core/Uri.php';
 
 //Needs to be loaded for Controllers ans Models
 require COREPATH . 'core/Controller.php';

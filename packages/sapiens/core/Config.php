@@ -9,7 +9,7 @@ class SF_Config {
 			$this->read_config($config, false);
 		}
 		unset($config);
-		foreach (array('routes', 'mimes', 'paths') as $config) {
+		foreach (array('routes', 'mimes', 'paths', 'database') as $config) {
 			$this->read_config($config, true);
 		}
 		unset($config);

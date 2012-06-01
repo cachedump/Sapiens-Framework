@@ -18,6 +18,8 @@ class SF_Controller {
 		$this->input = new SF_Input();
 		//init the Language-Class
 		$this->lang = new SF_Language();
+		//assign the Uri-Class from global Bootstrap
+		$this->uri = &$Bootstrap->_uri;
 	}
 
 	/**
@@ -31,4 +33,10 @@ class SF_Controller {
 		return self::$instance;
 	}
 
+}
+
+if (!function_exists('get_instance')) {
+	function &get_instance() {
+		return SF_Controller::get_instance();
+	}
 }

@@ -7,6 +7,6 @@ class Home extends SF_Controller {
 	}
 
 	function index() {
-		
+		echo "It works!";
 	}
 }
