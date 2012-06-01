@@ -15,7 +15,7 @@ TODO
 * Complete the Output-Class
 	* Add feature to output JSON/XML an other
 	* Add compressing
-* Add the Database-Class
+* Complete the Database-Class
 * Add gettext-feature to the Language-Class
 * Add Helper for the Language-Class
 
