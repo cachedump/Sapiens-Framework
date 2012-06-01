@@ -136,7 +136,7 @@ if ( ! function_exists('show_404') ) {
 if ( ! function_exists('log_message') ) {
 	function log_message($status, $message) {
 		
-		$file = APPPATH.'log/'.date('"m-d-Y').'_log.txt';
+		$file = APPPATH.'log/'.date('m-d-Y').'_log.txt';
 		Log::write($file, $message);
 	}
 }

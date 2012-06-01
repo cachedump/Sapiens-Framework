@@ -32,7 +32,7 @@ class Log
 	*/
 	public static function write($file, $data) {	
 		/** Open the file, or attempt to create it if it doesn't exist */
-		self::$_handle = fopen($file, 'a+');
+		self::$_handle = fopen($file, 'a');
 		
 		$date = date("m-d-Y g:ia");
 		
