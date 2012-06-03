@@ -3,8 +3,20 @@
 class SF_Config {
 
 	private $_configs = array('main' => array(), 'group' => array());
+
+	private $_autoload = array('core' => array(), 'libraries' => array(), 'helper' => array(), 'models' => array(), 'language' => array());
 	
 	function __construct() {
+		$ini = parse_ini_file(APPPATH.'config/autoload.ini', false);
+		foreach ($ini as $group => $config) {
+			if (isset($this->_autoload[$group]) AND !empty($config)) {
+				$config = array_filter($config, function($a){
+				    return is_string($a) && trim($a) !== "";
+				});
+				$this->_autoload[$group] = array_merge($this->_autoload[$group], $config);
+			}
+		}
+		unset($config, $ini, $group);
 		foreach (array('config') as $config) {
 			$this->read_config($config, false);
 		}
@@ -112,5 +124,14 @@ class SF_Config {
 	    } 
 	    fclose($handle); 
 	    return true; 
+	}
+
+	public function get_autoloads($group = false) {
+		if (!$group) return $this->_autoload;
+
+		if (isset($this->_autoload[$group]) AND !empty($this->_autoload[$group])) {
+			return $this->_autoload[$group];
+		}
+		return array();
 	}
 }

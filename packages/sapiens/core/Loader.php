@@ -13,6 +13,8 @@ class SF_Loader {
     private $_helper_paths = array();
     private $_config_paths = array();
 
+    private $_autoloads = array();
+
     private $_loaded_files = array();
     private $_loaded_libs = array();
     private $_loaded_models = array();
@@ -31,7 +33,10 @@ class SF_Loader {
         $this->_language_paths = $this->instance->config->item('language', 'Paths');
         $this->_helper_paths = $this->instance->config->item('helper', 'Paths');
         $this->_config_paths = $this->instance->config->item('config', 'Paths');
-        //var_dump($this);
+        //get autoloads
+        $this->_autoloads = $this->instance->config->get_autoloads();
+        //do autoload
+        $this->_autoload();
     }
 
     /**
@@ -390,6 +395,21 @@ class SF_Loader {
     /* @TODO add gettext functionality */
     private function _lang_gettext($files, $path) {
         
+    }
+
+    private function _autoload() {
+        foreach (array_merge($this->_autoloads['core'], $this->_autoloads['libraries']) as $toLoad) {
+            $this->library($toLoad);
+        }
+        foreach ($this->_autoloads['helper'] as $toLoad) {
+            $this->helper($toLoad);
+        }
+        foreach ($this->_autoloads['models'] as $toLoad) {
+            $this->model($toLoad);
+        }
+        foreach ($this->_autoloads['language'] as $toLoad) {
+            $this->language($toLoad);
+        }
     }
 
 

@@ -12,12 +12,12 @@ class SF_Controller {
 		$this->config = &$Bootstrap->config;
 		//assign the Output-Class from global Bootstrap
 		$this->output = &$Bootstrap->_output;
+		//init the Language-Class - must be before Loader
+		$this->lang = new SF_Language();
 		//init the Loader-Class
 		$this->load = new SF_Loader();
 		//init the Input-Class
 		$this->input = new SF_Input();
-		//init the Language-Class
-		$this->lang = new SF_Language();
 		//assign the Uri-Class from global Bootstrap
 		$this->uri = &$Bootstrap->_uri;
 	}
