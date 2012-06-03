@@ -17,7 +17,6 @@ TODO
 	* Add compressing
 * Complete the Database-Class
 * Add gettext-feature to the Language-Class
-* Add Helper for the Language-Class
 
 -------------------------------------------------------------
 
