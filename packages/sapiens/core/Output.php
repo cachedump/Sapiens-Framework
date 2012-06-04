@@ -44,6 +44,14 @@ class SF_Output {
 	 * @var array
 	 */
 	private $mime_types	= array();
+
+	/**
+	 * Is the Page already renderen?
+	 *
+	 * @access 	private
+	 * @var boolean
+	 **/
+	private $_rendered = false;
 	
 	function __construct() {
 		global $Bootstrap;
@@ -71,7 +79,7 @@ class SF_Output {
 	 * @param string The Output to be set.
 	 * @return void
 	 **/
-	public function set_output($output = '', $empty = false) {
+	public function set_output($output = '') {
 		$this->final_output = $output;
 	}
 
@@ -167,6 +175,72 @@ class SF_Output {
 		return $this;
 	}
 
+	//--------------------------------------------------------------------------------------------
+
+	/**
+	 * Outputs JSON-Data to the Browser
+	 * No other output after this.
+	 *
+	 * @access public
+	 * @param mixed The Data to convert and output.
+	 * @return void
+	 **/
+	public function json($data) {
+		$this->set_output(json_encode($data));
+		$this->render();
+	}
+
+	/**
+	 * Outputs XML-Data to the Browser
+	 * No other output after this.
+	 *
+	 * @access public
+	 * @param mixed The Data to convert and output.
+	 * @return void
+	 **/
+	public function xml($data) {
+		function generateValidXmlFromObj(stdClass $obj, $node_block = false) {
+	        $arr = get_object_vars($obj);
+	        return generateValidXmlFromArray($arr, $node_block);
+	    }
+		function generateValidXmlFromArray($array, $node_block = false) {
+	        $xml = '<?xml version="1.0" encoding="UTF-8" ?>';
+
+	        if ($node_block) $xml .= '<' . $node_block . '>';
+	        $xml .= generateXmlFromArray($array);
+	        if ($node_block) $xml .= '</' . $node_block . '>';
+
+	        return $xml;
+	    }
+	    function generateXmlFromArray($array) {
+	        $xml = '';
+
+	        if (is_array($array) || is_object($array)) {
+	            foreach ($array as $key=>$value) {
+	            	$xml .= '<' . $key . '>' . generateXmlFromArray($value, false) . '</' . $key . '>';
+	            }
+	        } else {
+	            $xml = htmlspecialchars($array, ENT_QUOTES);
+	        }
+
+	        return $xml;
+	    }
+
+	    $xml = '';
+
+	    if (is_object($data))
+	    	$xml .= generateValidXmlFromObj($data);
+    	elseif (is_array($data))
+    		$xml .= generateValidXmlFromArray($data);
+		else
+			$xml .= generateValidXmlFromArray(array($data));
+
+		$this->set_output($xml);
+		$this->render();
+	}
+
+	//--------------------------------------------------------------------------------------------
+
 	/**
 	 * Renders the Output for Browser
 	 *
@@ -174,6 +248,9 @@ class SF_Output {
 	 * @return void
 	 **/
 	public function render() {
+		if ($this->_rendered === true) return;
+		$this->_rendered = true;
+
 		global $BMK, $SF, $Bootstrap;
 
 		$l_output = $this->layout_output;
