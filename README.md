@@ -13,7 +13,6 @@ TODO
 * Complete the Benchmark-Class
 * Complete the Input-Class
 * Complete the Output-Class
-	* Add feature to output JSON/XML an other
 	* Add compressing
 * Complete the Database-Class
 * Add gettext-feature to the Language-Class
