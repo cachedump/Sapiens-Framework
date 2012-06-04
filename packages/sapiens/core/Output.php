@@ -196,19 +196,21 @@ class SF_Output {
 	 *
 	 * @access public
 	 * @param mixed The Data to convert and output.
+	 * @param optional string The Root-Element(default 'root')
 	 * @return void
 	 **/
-	public function xml($data) {
-		function generateValidXmlFromObj(stdClass $obj, $node_block = false) {
+	public function xml($data, $node_block = 'root') {
+		
+		function generateValidXmlFromObj(stdClass $obj, $node_block = 'root') {
 	        $arr = get_object_vars($obj);
 	        return generateValidXmlFromArray($arr, $node_block);
 	    }
-		function generateValidXmlFromArray($array, $node_block = false) {
-	        $xml = '<?xml version="1.0" encoding="UTF-8" ?>';
+		function generateValidXmlFromArray($array, $node_block = 'root') {
+	        $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\r\n";
 
-	        if ($node_block) $xml .= '<' . $node_block . '>';
+	        if ($node_block) $xml .= '<' . $node_block . ">\r\n";
 	        $xml .= generateXmlFromArray($array);
-	        if ($node_block) $xml .= '</' . $node_block . '>';
+	        if ($node_block) $xml .= '</' . $node_block . ">\r\n";
 
 	        return $xml;
 	    }
@@ -217,7 +219,8 @@ class SF_Output {
 
 	        if (is_array($array) || is_object($array)) {
 	            foreach ($array as $key=>$value) {
-	            	$xml .= '<' . $key . '>' . generateXmlFromArray($value, false) . '</' . $key . '>';
+	            	if (is_numeric($key)) $key = numtochars($key); 
+	            	$xml .= '<' . $key . ">\r\n" . generateXmlFromArray($value, false) . '</' . $key . ">\r\n";
 	            }
 	        } else {
 	            $xml = htmlspecialchars($array, ENT_QUOTES);
@@ -229,11 +232,11 @@ class SF_Output {
 	    $xml = '';
 
 	    if (is_object($data))
-	    	$xml .= generateValidXmlFromObj($data);
+	    	$xml .= generateValidXmlFromObj($data, $node_block);
     	elseif (is_array($data))
-    		$xml .= generateValidXmlFromArray($data);
+    		$xml .= generateValidXmlFromArray($data, $node_block);
 		else
-			$xml .= generateValidXmlFromArray(array($data));
+			$xml .= generateValidXmlFromArray(array($data), $node_block);
 
 		$this->set_output($xml);
 		$this->render();
