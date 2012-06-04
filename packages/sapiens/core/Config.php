@@ -4,7 +4,7 @@ class SF_Config {
 
 	private $_configs = array('main' => array(), 'group' => array());
 
-	private $_autoload = array('core' => array(), 'libraries' => array(), 'helper' => array(), 'models' => array(), 'language' => array());
+	private $_autoload = array('core' => array(), 'libraries' => array(), 'helper' => array('sapiens'), 'models' => array(), 'language' => array());
 	
 	function __construct() {
 		$ini = parse_ini_file(APPPATH.'config/autoload.ini', false);
